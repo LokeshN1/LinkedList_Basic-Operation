@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct stk {
+    int data;
+    struct stk* next;
+} stk;
+
+void push(stk** TP) {
+    int d;
+    stk* p = (stk*)malloc(sizeof(stk));
+    if (p == NULL) {
+        printf("MEMORY ALLOCATION FAILED\n");
+        return;
+    }
+    printf("Enter data: ");
+    scanf("%d", &d);
+    p->data = d;
+    p->next = *TP;
+    *TP = p;
+}
+
+void pop(stk** TP) {
+    if (*TP == NULL) {
+        printf("STACK IS EMPTY\n");
+    } else {
+        printf("Popped element is %d\n", (*TP)->data);
+        stk* temp = *TP;
+        *TP = (*TP)->next;
+        free(temp); // Free the memory of the popped node
+    }
+}
+
+void peek(stk** TP) {
+    if (*TP == NULL) {
+        printf("STACK IS EMPTY\n");
+    } else {
+        printf("Peek element is %d\n", (*TP)->data);
+    }
+}
+
+void display(stk* TP) {
+    if (TP == NULL) {
+        printf("STACK IS EMPTY\n");
+    } else {
+        printf("Stack elements:\n");
+        while (TP != NULL) {
+            printf("%d\n", TP->data);
+            TP = TP->next;
+        }
+    }
+}
+
+int main() {
+    int ch;
+    stk* top = NULL;
+
+    do {
+        printf("Enter choice (1: Push, 2: Pop, 3: Display, 4: Peek, 5: Exit): ");
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1:
+                push(&top);
+                break;
+            case 2:
+                pop(&top);
+                break;
+            case 3:
+                display(top);
+                break;
+            case 4:
+                peek(&top);
+                break;
+            case 5:
+                // Cleanup memory by deallocating all nodes before exiting
+                while (top != NULL) {
+                    stk* temp = top;
+                    top = top->next;
+                    free(temp);
+                }
+                break;
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+    } while (ch != 5);
+
+    return 0;
+}

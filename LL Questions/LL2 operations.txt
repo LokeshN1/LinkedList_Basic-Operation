@@ -1,0 +1,187 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the linked list structure
+typedef struct LinkedList {
+    int data;
+    struct LinkedList* next;
+} LinkedList;
+
+// Function to reverse and display a linked list in reverse order
+void ReverseLL(LinkedList* p) {
+    if (p->next == NULL) {
+        printf("%d\n", p->data);
+    } else {
+        ReverseLL(p->next);
+        printf("%d\n", p->data);
+    }
+}
+
+int main() {
+    LinkedList* p = NULL;
+    LinkedList* L = NULL;
+    LinkedList* R = NULL;
+    int x = 1, d;
+
+    // Input data into the linked list
+    while (x) {
+        printf("Enter data: ");
+        scanf("%d", &d);
+
+        // Allocate memory for a new node
+        p = (LinkedList*)malloc(sizeof(LinkedList));
+
+        if (p == NULL) {
+            printf("Memory allocation failed\n");
+            return 1; // Exit with an error code
+        }
+
+        p->data = d;
+        p->next = NULL;
+
+        // Update the linked list pointers
+        if (L == NULL && R == NULL) {
+            L = R = p;
+        } else {
+            R->next = p;
+            R = p;
+        }
+
+        printf("Press 0 to exit: ");
+        scanf("%d", &x);
+    }
+
+    // Display the original linked list
+    printf("Displaying LL:\n");
+    p = L;
+
+    while (p != NULL) {
+        printf("%d\n", p->data);
+        p = p->next;
+    }
+
+    // Display the original linked list in reverse order
+    printf("Displaying LL In REVERSE ORDER:\n");
+    ReverseLL(L);
+
+    // Split the linked list into two
+    LinkedList* L1 = NULL;
+    LinkedList* R1 = NULL;
+    LinkedList* L2 = NULL;
+    LinkedList* R2 = NULL;
+    int n;
+
+    printf("Enter the node index from which you want to split: ");
+    scanf("%d", &n);
+
+    p = L;
+    int cnt = 0;
+
+    while (p != NULL) {
+        // Inserting node into the first linked list
+        if (cnt < n) {
+            if (L1 == NULL && R1 == NULL) {
+                L1 = R1 = p;
+            } else {
+                R1->next = p;
+                R1 = p;
+            }
+        } else {
+            // Inserting node into the second linked list
+            if (L2 == NULL && R2 == NULL) {
+                L2 = R2 = p;
+            } else {
+                R2->next = p;
+                R2 = p;
+            }
+        }
+
+        cnt++;
+        p = p->next;
+    }
+
+    // Terminate the last nodes of the split lists
+    if (R1 != NULL) {
+        R1->next = NULL;
+    }
+    if (R2 != NULL) {
+        R2->next = NULL;
+    }
+
+    // Display the first split list
+    printf("Displaying First LL:\n");
+    p = L1;
+    while (p != NULL) {
+        printf("%d\n", p->data);
+        p = p->next;
+    }
+
+    // Display the second split list
+    printf("Displaying Second LL:\n");
+    p = L2;
+    while (p != NULL) {
+        printf("%d\n", p->data);
+        p = p->next;
+    }
+
+    // Create two new linked lists: one for even values and another for odd values
+    LinkedList* L3 = NULL;
+    LinkedList* R3 = NULL;
+    LinkedList* L4 = NULL;
+    LinkedList* R4 = NULL;
+
+    p = L;
+
+    while (p != NULL) {
+        if (p->data % 2 == 0) {
+            if (L3 == NULL && R3 == NULL) {
+                L3 = R3 = p;
+            } else {
+                R3->next = p;
+                R3 = p;
+            }
+        } else {
+            if (L4 == NULL && R4 == NULL) {
+                L4 = R4 = p;
+            } else {
+                R4->next = p;
+                R4 = p;
+            }
+        }
+
+        p = p->next;
+    }
+
+    // Terminate the last nodes of the even and odd lists
+    if (R3 != NULL) {
+        R3->next = NULL;
+    }
+    if (R4 != NULL) {
+        R4->next = NULL;
+    }
+
+    // Display the linked list with even values
+    printf("Displaying LL with even nodes:\n");
+    p = L3;
+    while (p != NULL) {
+        printf("%d\n", p->data);
+        p = p->next;
+    }
+
+    // Display the linked list with odd values
+    printf("Displaying LL with odd nodes:\n");
+    p = L4;
+    while (p != NULL) {
+        printf("%d\n", p->data);
+        p = p->next;
+    }
+
+    // Free memory
+    while (L != NULL) {
+        LinkedList* temp = L;
+        L = L->next;
+        free(temp);
+    }
+
+    return 0;
+}

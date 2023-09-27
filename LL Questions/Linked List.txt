@@ -1,0 +1,257 @@
+// LINKED LIST
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// creating structure-: 
+typedef struct LL{
+    int data;
+    struct LL* next;
+}LL;
+
+
+// function for finding no. of odd and even nodes-:
+void fun1(struct LL* p, int *odd, int *even){
+    while(p!=NULL){
+        if((p->data) % 2 == 0) (*even)++;
+        else (*odd)++;
+        p = p->next;
+    }
+}
+
+
+// main function -:
+
+int main(){
+    int x = 5 ,d;   // x = no. of node we will store in LL
+    
+// IN THIS LL we are inserting element from Left to Right -:
+    LL* p = NULL;
+    LL* L = NULL;       // L will always pointing to the first node of LL
+    LL* R = NULL;       // we will traverse R to insert node in LL after inserting all elements in LL R will pointing on the last node
+    
+    // cnt will gave no. of nodes , m will gave no. nodes which are multiple of 3
+       int cnt =0, odd=0,even = 0, m=0;
+
+
+// Inserting elements in LL -:
+    while(x)
+    {
+        printf("enter data");
+        scanf("%d",&d);             // input data
+        
+        p = (LL*)malloc(sizeof(LL));        // creating node
+        p->data = d;    
+        
+        // if there is no elements in LL-:
+        if(L == NULL && R == NULL)
+        {
+            L = R = p;
+        }
+        
+        // otherwise-:
+        else{
+            R->next = p;
+            R = p;
+        }
+        
+        x--;
+    }
+    
+//displaying Linked List -:
+    p = L;
+    while(p != NULL)
+    {
+        printf("%d\n",p->data);
+        p = p->next;
+    }
+    
+// count no. of nodes -:
+   p = L;
+    while(p != NULL)
+    {
+        cnt++;
+       
+        if((p->data) % 3 == 0 ) m++;         //counting no. nodes which are multiple of 3 
+        
+        p = p->next;
+    }
+    
+// calling function to count no. of odd and even nodes -:
+    fun1(L ,&odd, &even);       
+    
+    
+// displaying no. of nodes, odd, even and multipe of 3 nodes-:
+    printf("no. of nodes are= %d \n",cnt);
+    printf("no. of odd nodes are  =%d\n ", odd);
+    printf("no. of even nodes are  = %d\n", even);
+    printf("multiple of 3 in nodes are  = %d\n", m);
+ 
+    
+// inserting node before first node -:
+    
+    p = (LL*)malloc(sizeof(LL));    
+    printf("input ele");
+    scanf("%d",&d);         // input data
+    
+    
+    p->data = d;
+    p->next = L;
+    L = p;
+    
+    
+ //displaying list after inserting node before fist node -:
+    p = L;
+    printf("list after inserting node before fist node\n");
+    while(p != NULL)
+    {
+        printf("%d\n",p->data);
+        p = p->next;
+    }
+    
+    
+// inserting node after first node-:
+    
+    p = (LL*)malloc(sizeof(LL));
+    printf("Enter dat");
+    scanf("%d",&d);
+    
+    
+    p->data = d;
+    p->next = L->next;
+    L->next = p;
+    
+    
+//displaying list after inserting node after fist node-:
+    printf("list after inserting node after fist node\n");
+    p = L;
+    while(p != NULL){
+        printf("%d\n",p->data);
+        p = p->next;
+    }
+    
+    
+// inserting node after last node-:
+    p = (LL*)malloc(sizeof(LL));
+    printf("Enter dat");
+    scanf("%d",&d);
+    
+    
+    p->data = d;
+    R->next = p;
+    R = p;
+    R->next = NULL;
+    
+   
+//displaying list after inserting node after last node-:
+    printf("list after inserting node after last node\n");
+    p = L;
+    while(p != NULL){
+        printf("%d\n",p->data);
+        p = p->next;
+    }
+    
+    
+// inserting node before last node-:
+    printf("Enter dat");
+    scanf("%d",&d);
+    
+    
+    p = L;
+    
+    
+    while(p->next->next != NULL){
+        p = p->next;
+    }
+    printf("%d",p->data);
+    LL* f = (LL*)malloc(sizeof(LL));
+    f->data = d;
+    f->next = p->next;
+    p->next = f;
+    
+    
+    
+//displaying list after inserting node before last node-:
+     printf("list after inserting node before last node\n");
+    p = L;
+    while(p != NULL){
+        printf("%d\n",p->data);
+        p = p->next;
+    }
+    
+    // deleting frist node of LL-:
+    L = L->next;
+    
+    // deleting last node of LL-:
+    p = L;
+    while(p->next->next != NULL){
+        p = p->next;
+    }
+    p->next = NULL;
+  
+    
+// displaying list after deleting first and last node-:
+    printf("list after deleting first and last node\n");
+    p = L;
+    while(p != NULL){
+        printf("%d\n",p->data);
+        p = p->next;
+    }
+    
+// Serching node in LL and updating that node with some other value-:
+    printf("Enter node you want to serch");
+    scanf("%d",&d);
+    p = L;
+    
+    //serching for node -:
+    while(p != NULL){
+        if(p->data == d) break;
+        p = p->next;
+    }
+    // if node we are serching is not present (exist) in LL-:
+    if(p == NULL) {
+        printf("node doesn't exist");       
+    }
+    
+    // if it exist-:
+    else{
+        printf("Enter data you want update on that node");
+        scanf("%d",&d);
+        // updating node-:
+        p->data = d;
+    }
+    
+//displaying updated Linked List-:
+    printf("updated Linked List\n");
+    p = L;
+    while(p != NULL){
+        printf("%d\n",p->data);
+        p = p->next;
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

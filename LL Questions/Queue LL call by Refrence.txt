@@ -1,0 +1,102 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a queue node
+typedef struct queue {
+    int data;
+    struct queue* next;
+} queue;
+
+// Function to enqueue an element
+void Enqueue(queue** rear) {
+    int d;
+    queue* p = (queue*)malloc(sizeof(queue));
+    if (p == NULL) {
+        printf("Memory allocation failed\n");
+        return;
+    }
+    printf("Enter data: ");
+    scanf("%d", &d);
+    p->data = d;
+    p->next = NULL;
+    
+    if (*rear == NULL) {
+        *rear = p;
+    } else {
+        (*rear)->next = p;
+        *rear = p;
+    }
+}
+
+// Function to dequeue an element
+void Dequeue(queue** front) {
+    if (*front == NULL) {
+        printf("Queue is empty\n");
+    } else {
+        printf("Dequeued element is %d\n", (*front)->data);
+        *front = (*front)->next;
+    }
+}
+
+// Function to peek at the front element
+void Peek(queue** front) {
+    if (*front == NULL) {
+        printf("Queue is empty\n");
+    } else {
+        printf("Front element is %d\n", (*front)->data);
+    }
+}
+
+// Function to display the queue
+void Display(queue* front) {
+    if (front == NULL) {
+        printf("Queue is empty\n");
+    } else {
+        printf("Queue elements:\n");
+        while (front != NULL) {
+            printf("%d\n", front->data);
+            front = front->next;
+        }
+    }
+}
+
+int main() {
+    int ch;
+    queue* front = NULL;
+    queue* rear = NULL;
+
+    do {
+        printf("Enter choice (1: Enqueue, 2: Dequeue, 3: Peek, 4: Display, 5: Exit): ");
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1:
+                Enqueue(&rear);
+                if (front == NULL) {
+                    front = rear;
+                }
+                break;
+            case 2:
+                Dequeue(&front);
+                break;
+            case 3:
+                Peek(&front);
+                break;
+            case 4:
+                Display(front);
+                break;
+            case 5:
+                // Cleanup memory by deallocating all nodes before exiting
+                while (front != NULL) {
+                    queue* temp = front;
+                    front = front->next;
+                    free(temp);
+                }
+                break;
+            default:
+                printf("Invalid choice.\n");
+                break;
+        }
+    } while (ch != 5);
+
+    return 0;
+}
